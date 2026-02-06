@@ -1,0 +1,60 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #b0bec5;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border-color: rgba(0,0,0,0.1);
+}
+
+.fc .fc-button-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+    .fc .fc-button-primary:hover {
+        background-color: #23272b;
+    }
+
+    .fc .fc-button-primary:disabled {
+        background-color: #5a6268;
+    }
+
+.fc-col-header-cell-cushion {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.fc-daygrid-day-number {
+    color: #333;
+    text-decoration: none;
+}
+
+.fc-event {
+    cursor: pointer;
+}
+
+#calendar {
+    min-height: 600px;
+    width: 100%;
+}

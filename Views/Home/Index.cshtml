@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Strona Główna";
+}
+
+<div class="px-4 py-5 my-5 text-center">
+
+    <img class="d-block mx-auto mb-4 img-fluid rounded shadow-lg"
+         src="~/img/automajster.jpg"
+         alt="Warsztat Samochodowy"
+         style="max-height: 600px; width: auto;">
+
+    <h1 class="display-5 fw-bold">Profesjonalny Warsztat Samochodowy</h1>
+
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+            Dbamy o Twoje bezpieczeństwo na drodze. Oferujemy kompleksową diagnostykę,
+            naprawy mechaniczne oraz wymianę części. Szybko, tanio i solidnie.
+        </p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a asp-controller="Reservations" asp-action="Create" class="btn btn-primary btn-lg px-4 gap-3">
+                Umów wizytę teraz
+            </a>
+            <a asp-controller="Services" asp-action="Index" class="btn btn-secondary btn-lg px-4">
+                Zobacz Cennik
+            </a>
+        </div>
+    </div>
+</div>

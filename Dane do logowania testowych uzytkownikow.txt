@@ -1,0 +1,7 @@
+User
+L: test@test.pl
+H: QAZwsxEDC
+
+Admin
+L: admin@test.pl
+H: QAZwsxEDC

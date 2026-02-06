@@ -1,0 +1,164 @@
+﻿@model IEnumerable<WarsztatMVC.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Lista Rezerwacji";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Rezerwacje</h1>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>Nowa Rezerwacja
+    </a>
+
+</div>
+
+<div class="card mb-4 bg-light">
+    <div class="card-body">
+        <form asp-action="Index" method="get">
+            <div class="row g-3 align-items-end">
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Klient (Email):</label>
+                        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Wpisz fragment..." />
+                    </div>
+                }
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Data wizyty:</label>
+                    <input type="date" name="searchDate" value="@ViewData["DateFilter"]" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Status:</label>
+                    <select name="searchStatus" class="form-control">
+                        <option value="">-- Wszystkie --</option>
+
+                        @if (ViewData["StatusFilter"] as string == "Pending")
+                        {
+                            <option value="Pending" selected>Oczekujące</option>
+                        }
+                        else
+                        {
+                            <option value="Pending">Oczekujące</option>
+                        }
+
+                        @if (ViewData["StatusFilter"] as string == "Confirmed")
+                        {
+                            <option value="Confirmed" selected>Potwierdzone</option>
+                        }
+                        else
+                        {
+                            <option value="Confirmed">Potwierdzone</option>
+                        }
+
+                        @if (ViewData["StatusFilter"] as string == "Completed")
+                        {
+                            <option value="Completed" selected>Wykonane</option>
+                        }
+                        else
+                        {
+                            <option value="Completed">Wykonane</option>
+                        }
+
+                        @if (ViewData["StatusFilter"] as string == "Cancelled")
+                        {
+                            <option value="Cancelled" selected>Anulowane</option>
+                        }
+                        else
+                        {
+                            <option value="Cancelled">Anulowane</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Filtruj</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100 btn-sm">Wyczyść</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Data i Godzina</th>
+            <th>Status</th>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Klient</th>
+            }
+
+            <th>Usługa</th>
+            <th>Cena</th>
+            <th class="text-end">Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="fw-bold">
+                    @item.Date.ToString("dd.MM.yyyy HH:mm")
+                </td>
+
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <span class="badge bg-warning text-dark">Oczekuje</span>
+                    }
+                    else if (item.Status == "Confirmed")
+                    {
+                        <span class="badge bg-primary">Potwierdzona</span>
+                    }
+                    else if (item.Status == "Completed")
+                    {
+                        <span class="badge bg-success">Wykonana</span>
+                    }
+                    else if (item.Status == "Cancelled")
+                    {
+                        <span class="badge bg-danger">Anulowana</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@item.Status</span>
+                    }
+                </td>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Service.Name)
+                </td>
+
+                <td>
+                    @item.Service.Price.ToString("C")
+                </td>
+
+                <td class="text-end">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edytuj</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Szczegóły</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center mt-4">
+        Brak rezerwacji spełniających kryteria.
+    </div>
+}

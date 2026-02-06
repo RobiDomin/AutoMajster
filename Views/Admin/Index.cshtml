@@ -1,0 +1,123 @@
+﻿@model WarsztatCar.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Panel Administratora";
+}
+
+<div class="container-fluid">
+    <h1 class="mb-4">Dashboard Mechanika</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Oczekujące Decyzji</div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.PendingReservations</h2>
+                    <p class="card-text">Wizyty wymagają zatwierdzenia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Dzisiejsze Wizyty</div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.TodayReservationsCount</h2>
+                    <p class="card-text">Klientów umówionych na dziś.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-header">Łącznie Rezerwacji</div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.TotalReservations</h2>
+                    <p class="card-text">W historii warsztatu.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Szacowany Przychód</div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.TotalRevenue.ToString("C")</h2>
+                    <p class="card-text">Z aktywnych rezerwacji.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Harmonogram na Dziś (@DateTime.Now.ToString("dd.MM.yyyy"))
+                </div>
+                <div class="card-body">
+                    @if (Model.TodayReservations.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Godzina</th>
+                                    <th>Klient</th>
+                                    <th>Usługa</th>
+                                    <th>Status</th>
+                                    <th>Akcja</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.TodayReservations)
+                                {
+                                    <tr>
+                                        <td>@item.Date.ToString("HH:mm")</td>
+                                        <td>@item.User?.UserName</td>
+                                        <td>@item.Service?.Name</td>
+                                        <td>
+                                            @if (item.Status == "Pending")
+                                            {
+                                                <span class="badge bg-warning text-dark">Oczekuje</span>
+                                            }
+                                            else if (item.Status == "Confirmed")
+                                            {
+
+                                                <span class="badge bg-success">Potwierdzona</span>
+                                            }
+                                            else
+                                            {
+
+                                                <span class="badge bg-secondary">@item.Status</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Reservations" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Zarządzaj</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center mt-3">Brak zaplanowanych wizyt na dzisiaj.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <a asp-controller="Reservations" asp-action="Index" class="btn btn-dark w-100 p-3">
+                 Zobacz wszystkie rezerwacje
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a asp-controller="Services" asp-action="Index" class="btn btn-dark w-100 p-3">
+                 Zarządzaj Cennikiem Usług
+            </a>
+        </div>
+    </div>
+</div>

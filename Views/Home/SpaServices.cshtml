@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Cennik (SPA)";
+}
+
+<div class="container py-4">
+    <div class="card border-0 shadow-lg" style="background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);">
+
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Cennik Usług (Live)</h3>
+            <button onclick="loadServices()" class="btn btn-sm btn-outline-info">Odśwież dane</button>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover" id="servicesTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nazwa Usługi</th>
+                        <th>Opis</th>
+                        <th>Cena (PLN)</th>
+                    </tr>
+                </thead>
+                <tbody id="servicesBody">
+                    <tr><td colspan="3" class="text-center">Ładowanie danych...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function loadServices() {
+            const tableBody = document.getElementById('servicesBody');
+
+            try {
+                const response = await fetch('/api/ServicesApi');
+
+                if (!response.ok) throw new Error("Błąd sieci");
+
+                const data = await response.json();
+
+                tableBody.innerHTML = '';
+
+                data.forEach(service => {
+                    const row = `
+                        <tr>
+                            <td class="fw-bold">${service.name}</td>
+                            <td>${service.description}</td>
+                            <td class="text-success fw-bold">${service.price.toFixed(2)} zł</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+
+            } catch (error) {
+                console.error(error);
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-danger text-center">Nie udało się pobrać cennika.</td></tr>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadServices);
+    </script>
+}

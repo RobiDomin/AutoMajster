@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Kalendarz Wizyt";
+}
+
+<div class="container py-4">
+    <div class="card border-0 shadow-lg" style="background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);">
+
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Grafik Warsztatu</h3>
+            <a asp-action="Create" class="btn btn-outline-light btn-sm">Dodaj nową wizytę</a>
+        </div>
+
+        <div class="card-body p-4">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fc-col-header-cell-cushion, .fc-daygrid-day-number {
+        color: #333 !important;
+        text-decoration: none;
+    }
+
+    .fc .fc-button-primary {
+        background-color: #546e7a;
+        border-color: #455a64;
+    }
+
+        .fc .fc-button-primary:hover {
+            background-color: #37474f;
+        }
+</style>
+
+@section Scripts {
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+    <script src="~/js/calendar.js" asp-append-version="true"></script>
+}
