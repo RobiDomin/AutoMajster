@@ -1,42 +1,61 @@
 ﻿@model WarsztatMVC.Models.Reservation
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły Rezerwacji";
 }
 
-<h1>Details</h1>
+<h1>Szczegóły rezerwacji</h1>
 
 <div>
-    <h4>Reservation</h4>
+    <h4>Informacje o wizycie</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
+        <dt class="col-sm-2">
+            Data wizyty
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+
+        <dt class="col-sm-2">
+            Usługa
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Service.Name)
         </dd>
+
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Status == "Confirmed")
+            {
+                <span class="text-success fw-bold">Potwierdzono</span>
+            }
+            else if (Model.Status == "Pending")
+            {
+                <span class="text-warning fw-bold">Oczekiwanie</span>
+            }
+            else if (Model.Status == "Cancelled")
+            {
+                <span class="text-danger fw-bold">Anulowano</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Status)
+            }
+        </dd>
+
         <dt class="col-sm-2">
             Klient
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User.UserName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Service)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Service.Name)
-        </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edytuj</a>
+    <a asp-action="Index" class="btn btn-secondary">Powrót</a>
 </div>

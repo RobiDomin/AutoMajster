@@ -1,45 +1,50 @@
 ﻿@model WarsztatMVC.Models.Reservation
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Usuń Rezerwację";
 }
 
-<h1>Delete</h1>
+<h1>Usuń rezerwację</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="text-danger">Czy na pewno chcesz odwołać tę wizytę?</h3>
 <div>
-    <h4>Reservation</h4>
+    <h4>Szczegóły do usunięcia</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
+        <dt class="col-sm-2">
+            Data wizyty
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+
+        <dt class="col-sm-2">
+            Usługa
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Service.Name)
         </dd>
+
         <dt class="col-sm-2">
             Klient
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User.UserName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Service)
+
+        <dt class="col-sm-2">
+            Status
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Service.Name)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <div class="form-group mt-4">
+            <input type="submit" value="Usuń wizytę" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Powrót</a>
+        </div>
     </form>
 </div>
